@@ -2,23 +2,34 @@ import { useState, useEffect } from "react";
 
 export const GroupsIndex = () => {
   const [groups, setGroups] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const fetchGroups = async () => {
+    const fetchGroups = async (page) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/groups/");
+        const response = await fetch(`http://127.0.0.1:8000/api/groups/?page=${page}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setGroups(data);
+        setGroups(data.results);
+        setTotalPages(Math.ceil(data.count / 10)); // Asumiendo 10 items por página
       } catch (error) {
         console.error("Error fetching groups:", error);
       }
     };
 
-    fetchGroups();
-  }, []);
+    fetchGroups(currentPage);
+  }, [currentPage]);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   return (
     <>
@@ -58,40 +69,25 @@ export const GroupsIndex = () => {
                       <path d="M12 5l7 7-7 7"></path>
                     </svg>
                   </a>
-                  <div className="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4">
-                    <span className="text-gray-400 mr-3 inline-flex items-center leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                      </svg>
-                      1.2K
-                    </span>
-                    <span className="text-gray-400 inline-flex items-center leading-none text-sm">
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                      </svg>
-                      6
-                    </span>
-                  </div>
                 </div>
               </div>
             ))}
+          </div>
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="mx-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="mx-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg disabled:opacity-50"
+            >
+              Next
+            </button>
           </div>
         </div>
       </section>
