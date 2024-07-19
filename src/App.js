@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Home, GroupsIndex, GroupsCreate, GroupsEdit } from "./pages";
+import { Home, GroupIndex, GroupCreate, EditGroup, Login } from "./pages";
 import { Header, Footer } from "./components";
 
 function App() {
@@ -8,9 +8,10 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} ></Route>
-        <Route path='/groups' element={<GroupsIndex />} ></Route>
-        <Route path='/groups/create' element={<GroupsCreate />} ></Route>
-        <Route path='/groups/edit' element={<GroupsEdit />}/>
+        <Route path='/login' element={<Login />} ></Route>
+        <Route path='/groups' element={<GroupIndex />} ></Route>
+        <Route path='/groups/create' element={<GroupCreate />} ></Route>
+        <Route path='/groups/edit' element={<EditGroup />}/>
       </Routes>
       <Footer />
     </>  

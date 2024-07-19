@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 
 
-export const GroupsCreate = () => {
+export const GroupCreate = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
