@@ -1,3 +1,6 @@
+
+import { Link } from "react-router-dom"
+
 export const Home = () => {
   return (
     <>
@@ -5,7 +8,7 @@ export const Home = () => {
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-bold mb-4">Join the Best Study Groups</h2>
             <p class="text-lg mb-8">Collaborate, Learn, and Succeed Together.</p>
-            <a href="#contact" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition duration-300">Explore</a>
+            <Link to={"/groups"} class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition duration-300">Explore</Link>
         </div>
     </section>
 

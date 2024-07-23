@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { Group } from "../../components/group/Group";
 
-export const GroupsIndex = () => {
+export const GroupIndex = () => {
   const [groups, setGroups] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -14,7 +15,7 @@ export const GroupsIndex = () => {
         }
         const data = await response.json();
         setGroups(data.results);
-        setTotalPages(Math.ceil(data.count / 10)); // Asumiendo 10 items por página
+        setTotalPages(Math.ceil(data.count / 3));
       } catch (error) {
         console.error("Error fetching groups:", error);
       }
@@ -37,40 +38,9 @@ export const GroupsIndex = () => {
         <div className="container p-24 mx-auto">
           <div className="flex flex-wrap -m-4">
             {groups.map((group) => (
-              <div className="p-4 lg:w-1/3" key={group.id}>
-                <div className="h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
-                  <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                    {group.category.name}
-                  </h2>
-                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
-                    {group.name}
-                  </h1>
-                  <p className="leading-relaxed mb-3">{group.description}</p>
-                  <p className="leading-relaxed mb-3">
-                    <strong>Created At:</strong>{" "}
-                    {new Date(group.created_at).toLocaleDateString()}
-                  </p>
-                  <p className="leading-relaxed mb-3">
-                    <strong>Updated At:</strong>{" "}
-                    {new Date(group.updated_at).toLocaleDateString()}
-                  </p>
-                  <a className="text-indigo-500 inline-flex items-center">
-                    SHOW
-                    <svg
-                      className="w-4 h-4 ml-2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M5 12h14"></path>
-                      <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
+
+              <Group group={group}/>
+             
             ))}
           </div>
           <div className="flex justify-center mt-4">
